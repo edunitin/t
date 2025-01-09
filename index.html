@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Display Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000; /* Black background for high contrast */
+            color: #ffcc00;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            flex-direction: column;
+        }
+        .display-container {
+            text-align: center;
+            font-size: 15vw;
+            padding: 0;
+            margin: 0;
+        }
+        #time, #date, #temperature, #humidity {
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+            font-weight: bold;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .highlight {
+            color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+    <div class="display-container">
+        <div id="time" class="highlight"></div>
+        <div id="date"></div>
+        <div id="temperature" class="highlight">Temperature: 7°C</div>
+        <div id="humidity">Humidity: 99%</div>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const timeElement = document.getElementById('time');
+            const dateElement = document.getElementById('date');
+
+            timeElement.innerText = now.toLocaleTimeString();
+            dateElement.innerText = now.toLocaleDateString();
+        }
+
+        function cycleDisplay() {
+            const elements = ['time', 'date', 'temperature', 'humidity'];
+            let index = 0;
+
+            setInterval(() => {
+                elements.forEach(el => document.getElementById(el).style.display = 'none');
+                document.getElementById(elements[index]).style.display = 'block';
+                index = (index + 1) % elements.length;
+            }, 3000); // Change every 3 seconds
+        }
+
+        updateTime();
+        cycleDisplay();
+
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
